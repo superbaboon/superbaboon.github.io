@@ -34,7 +34,7 @@ categories:
 * Appender：日志的输出渠道
 * Layout：日志的格式
 
-![UML](images/Log4j_logger_appender_layout_uml.jpg) 
+![UML](/images/Log4j_logger_appender_layout_uml.jpg) 
 
 ####Logger
 ```
