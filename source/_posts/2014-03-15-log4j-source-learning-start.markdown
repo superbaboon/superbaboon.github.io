@@ -161,10 +161,10 @@ log4j.appender.R.layout.ConversionPattern=%p %t %c - %m%n
 
 | Logger name | Level | Inherited Level |
 | ------------ | ------------- | ------------ |
-| Root | LevelRoot  | LevelRoot |
-| X | LevelX  | LevelX |
-| X.Y | none  | LevelX |
-| X.Y.Z | LevelXYZ  | LevelXYZ |
+| Root | LevelRoot  | LevelRoot 
+| X | LevelX  | LevelX 
+| X.Y | none  | LevelX 
+| X.Y.Z | LevelXYZ  | LevelXYZ 
 
 ####Appender Additivity
 * 默认情况下：一个Logger(C)的日志请求-->C.parent-->…-->RootLogger
@@ -182,7 +182,7 @@ Rules of Appender Additivity
 
 | Logger name | Added Appenders	 | Additivity Flag | Output Targets |
 | ------------ | ------------- | ------------ | ------------ |
-| Root | A1  | <strong>not applicable</strong> | A1 |
-| X | A2  | true | A1, A2 |
-| X.Y | A3 | false | A3 |
-| X.Y.Z | A4 | true | A3, A4 |
+| Root | A1  | <strong>not applicable</strong> | A1 
+| X | A2  | true | A1, A2 
+| X.Y | A3 | false | A3 
+| X.Y.Z | A4 | true | A3, A4 
