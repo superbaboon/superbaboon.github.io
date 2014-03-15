@@ -39,7 +39,7 @@ categories:
 ####Logger
 ```
 // 生成Logger对象
-private final AvatarLogger logger = AvatarLoggerFactory.getLogger(ContentPlaceHolderTag.class);
+private final Logger logger = LoggerFactory.getLogger(A.class);
 
 // 打印日志
 logger.info("info…");
@@ -50,7 +50,7 @@ logger.error("error…");
 ####Appender(一般情况下不需要在程序代码中使用)
 
 ```
-<appender name="CONSOLE" class="com.dianping.combiz.misc.ExtendedConsoleAppender">
+<appender name="CONSOLE" class="xxx.xxx.ExtendedConsoleAppender">
 	<param name="Target" value="System.out" />
 	<layout class="org.apache.log4j.PatternLayout">
 		<param name="ConversionPattern" value="[review-web]%d %-5p [%c %L] %m%n" />
