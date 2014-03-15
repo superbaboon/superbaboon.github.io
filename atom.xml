@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2014-03-15T13:09:06+08:00</updated>
+  <updated>2014-03-15T13:34:58+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -302,25 +302,25 @@
 <td></td>
 <td> Root </td>
 <td> LevelRoot  </td>
-<td> LevelRoot |</td>
+<td> LevelRoot </td>
 </tr>
 <tr>
 <td></td>
 <td> X </td>
 <td> LevelX  </td>
-<td> LevelX |</td>
+<td> LevelX </td>
 </tr>
 <tr>
 <td></td>
 <td> X.Y </td>
 <td> none  </td>
-<td> LevelX |</td>
+<td> LevelX </td>
 </tr>
 <tr>
 <td></td>
 <td> X.Y.Z </td>
 <td> LevelXYZ  </td>
-<td> LevelXYZ |</td>
+<td> LevelXYZ </td>
 </tr>
 </tbody>
 </table>
@@ -364,28 +364,28 @@
 <td> Root </td>
 <td> A1  </td>
 <td> <strong>not applicable</strong> </td>
-<td> A1 |</td>
+<td> A1 </td>
 </tr>
 <tr>
 <td></td>
 <td> X </td>
 <td> A2  </td>
 <td> true </td>
-<td> A1, A2 |</td>
+<td> A1, A2 </td>
 </tr>
 <tr>
 <td></td>
 <td> X.Y </td>
 <td> A3 </td>
 <td> false </td>
-<td> A3 |</td>
+<td> A3 </td>
 </tr>
 <tr>
 <td></td>
 <td> X.Y.Z </td>
 <td> A4 </td>
 <td> true </td>
-<td> A3, A4 |</td>
+<td> A3, A4 </td>
 </tr>
 </tbody>
 </table>
