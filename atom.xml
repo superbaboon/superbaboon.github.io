@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2014-03-15T13:05:17+08:00</updated>
+  <updated>2014-03-15T13:09:06+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -75,7 +75,7 @@
 </ul>
 
 
-<p><img src="images/Log4j_logger_appender_layout_uml.jpg" alt="UML" /></p>
+<p><img src="http://superbaboon.github.io/images/Log4j_logger_appender_layout_uml.jpg" alt="UML" /></p>
 
 <h4>Logger</h4>
 
@@ -87,7 +87,7 @@
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
 </pre></td><td class='code'><pre><code class=''><span class='line'>// 生成Logger对象
-</span><span class='line'>private final AvatarLogger logger = AvatarLoggerFactory.getLogger(ContentPlaceHolderTag.class);
+</span><span class='line'>private final Logger logger = LoggerFactory.getLogger(A.class);
 </span><span class='line'>
 </span><span class='line'>// 打印日志
 </span><span class='line'>logger.info("info…");
@@ -103,7 +103,7 @@
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;appender name="CONSOLE" class="com.dianping.combiz.misc.ExtendedConsoleAppender"&gt;
+</pre></td><td class='code'><pre><code class=''><span class='line'>&lt;appender name="CONSOLE" class="xxx.xxx.ExtendedConsoleAppender"&gt;
 </span><span class='line'>  &lt;param name="Target" value="System.out" /&gt;
 </span><span class='line'>  &lt;layout class="org.apache.log4j.PatternLayout"&gt;
 </span><span class='line'>      &lt;param name="ConversionPattern" value="[review-web]%d %-5p [%c %L] %m%n" /&gt;
