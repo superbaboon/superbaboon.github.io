@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2014-03-15T13:34:58+08:00</updated>
+  <updated>2014-03-16T19:31:39+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -12,6 +12,297 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Log4j源码学习之--Logger.getLogger]]></title>
+    <link href="http://superbaboon.github.io/blog/2014/03/16/log4j-source-learning-logger-getlogger/"/>
+    <updated>2014-03-16T17:22:38+08:00</updated>
+    <id>http://superbaboon.github.io/blog/2014/03/16/log4j-source-learning-logger-getlogger</id>
+    <content type="html"><![CDATA[<ul>
+<li>Logger.getLogger的执行逻辑</li>
+</ul>
+
+
+<p><img src="http://superbaboon.github.io/images/Log4j_logger_getLogger_timeline.jpg" alt="时序图" /></p>
+
+<p>可以看出，实际的Logger创建有Hierachy完成，先贴源码</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public Logger getLogger(String name, LoggerFactory factory) {
+</span><span class='line'>    
+</span><span class='line'>    //System.out.println("getInstance("+name+") called.");
+</span><span class='line'>    CategoryKey key = new CategoryKey(name);
+</span><span class='line'>    
+</span><span class='line'>    // Synchronize to prevent write conflicts. Read conflicts (in
+</span><span class='line'>    // getChainedLevel method) are possible only if variable
+</span><span class='line'>    // assignments are non-atomic.
+</span><span class='line'>    Logger logger;
+</span><span class='line'>
+</span><span class='line'>    synchronized(ht) {
+</span><span class='line'>      Object o = ht.get(key);
+</span><span class='line'>      if(o == null) {
+</span><span class='line'>          logger = factory.makeNewLoggerInstance(name);
+</span><span class='line'>          logger.setHierarchy(this);
+</span><span class='line'>          ht.put(key, logger);
+</span><span class='line'>          updateParents(logger);
+</span><span class='line'>          return logger;
+</span><span class='line'>      } else if(o instanceof Logger) {
+</span><span class='line'>          return (Logger) o;
+</span><span class='line'>      } else if (o instanceof ProvisionNode) {
+</span><span class='line'>          logger = factory.makeNewLoggerInstance(name);
+</span><span class='line'>          logger.setHierarchy(this);
+</span><span class='line'>          ht.put(key, logger);
+</span><span class='line'>          updateChildren((ProvisionNode) o, logger);
+</span><span class='line'>          updateParents(logger);
+</span><span class='line'>          return logger;
+</span><span class='line'>      }
+</span><span class='line'>      else {
+</span><span class='line'>          // It should be impossible to arrive here
+</span><span class='line'>          return null;  // but let's keep the compiler happy.
+</span><span class='line'>      }
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>源码分析</h4>
+
+<ul>
+<li>Hierachy内部使用Hashtable这个数据结构存储Logger</li>
+<li>获取流程：
+
+<ol>
+<li> 如果不存在，则创建新的Logger，并updateParents(后面描述)</li>
+<li> 如果存在，并且是Logger类型，则直接返回</li>
+<li> 如果存在，并且<strong>ProvisionNode</strong>类型，创建Logger，并updateChildren和updateParents</li>
+</ol>
+</li>
+</ul>
+
+
+<h5>ProvisionNode</h5>
+
+<p>源码如下：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>class ProvisionNode extends Vector {
+</span><span class='line'>    
+</span><span class='line'>  ProvisionNode(Logger logger) {
+</span><span class='line'>    super();
+</span><span class='line'>    this.addElement(logger);
+</span><span class='line'>  }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>代码中可以看出ProvisionNode是Vector类型，用于维护它的子孙logger的指针。</p>
+
+<h4>updateParents逻辑</h4>
+
+<p>源码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void updateParents(Logger cat) {
+</span><span class='line'>  String name = cat.name;
+</span><span class='line'>  int length = name.length();
+</span><span class='line'>  boolean parentFound = false;
+</span><span class='line'>
+</span><span class='line'>  //System.out.println("UpdateParents called for " + name);
+</span><span class='line'>
+</span><span class='line'>  // if name = "w.x.y.z", loop thourgh "w.x.y", "w.x" and "w", but not "w.x.y.z"
+</span><span class='line'>  for(int i = name.lastIndexOf('.', length-1); i &gt;= 0;
+</span><span class='line'>                                 i = name.lastIndexOf('.', i-1))  {
+</span><span class='line'>    String substr = name.substring(0, i);
+</span><span class='line'>
+</span><span class='line'>    //System.out.println("Updating parent : " + substr);
+</span><span class='line'>    CategoryKey key = new CategoryKey(substr); // simple constructor
+</span><span class='line'>    Object o = ht.get(key);
+</span><span class='line'>    // Create a provision node for a future parent.
+</span><span class='line'>    if(o == null) {
+</span><span class='line'>      //System.out.println("No parent "+substr+" found. Creating ProvisionNode.");
+</span><span class='line'>      ProvisionNode pn = new ProvisionNode(cat);
+</span><span class='line'>      ht.put(key, pn);
+</span><span class='line'>    } else if(o instanceof Category) {
+</span><span class='line'>      parentFound = true;
+</span><span class='line'>      cat.parent = (Category) o;
+</span><span class='line'>      //System.out.println("Linking " + cat.name + " -&gt; " + ((Category) o).name);
+</span><span class='line'>      break; // no need to update the ancestors of the closest ancestor
+</span><span class='line'>    } else if(o instanceof ProvisionNode) {
+</span><span class='line'>      ((ProvisionNode) o).addElement(cat);
+</span><span class='line'>    } else {
+</span><span class='line'>      Exception e = new IllegalStateException("unexpected object type " +
+</span><span class='line'>              o.getClass() + " in ht.");
+</span><span class='line'>      e.printStackTrace();
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>  // If we could not find any existing parents, then link with root.
+</span><span class='line'>  if(!parentFound)
+</span><span class='line'>    cat.parent = root;
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Logger.getLogger(&ldquo;com.foo.bar.X&rdquo;)的流程即：</p>
+
+<ul>
+<li>依次对名字com.foo.bar,com.foo,com的logger进行下面逻辑处理
+
+<ol>
+<li> 如果logger不存在，则创建ProvisionNode对象，先占据位置</li>
+<li> 如果logger存在，并且是logger类型，则直接将当前logger的parent指向该logger，并直接返回</li>
+<li> 如果logger存在，并且是ProvisionNode，则将当前logger作为该ProvisionNode的子孙节点</li>
+</ol>
+</li>
+<li>如果没有找到parent logger， 则将当前logger的parent指向rootLogger</li>
+</ul>
+
+
+<h4>updateChildren逻辑</h4>
+
+<p>源码：</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>private void updateChildren(ProvisionNode pn, Logger logger) {
+</span><span class='line'>  //System.out.println("updateChildren called for " + logger.name);
+</span><span class='line'>  final int last = pn.size();
+</span><span class='line'>
+</span><span class='line'>  for(int i = 0; i &lt; last; i++) {
+</span><span class='line'>    Logger l = (Logger) pn.elementAt(i);
+</span><span class='line'>    //System.out.println("Updating child " +p.name);
+</span><span class='line'>
+</span><span class='line'>    // Unless this child already points to a correct (lower) parent,
+</span><span class='line'>    // make cat.parent point to l.parent and l.parent to cat.
+</span><span class='line'>    if(!l.parent.name.startsWith(logger.name)) {
+</span><span class='line'>      logger.parent = l.parent;
+</span><span class='line'>      l.parent = logger;
+</span><span class='line'>    }
+</span><span class='line'>  }
+</span><span class='line'>} </span></code></pre></td></tr></table></div></figure>
+
+
+<p>注意：Logger.getLogger(&ldquo;com.foo.bar.X&rdquo;),如果com.foo.bar.X对应的logger是ProvisionNode类型，则会通过updateChildren来更新子孙节点的parent logger指向</p>
+
+<p>举个例子：</p>
+
+<p>前置条件:</p>
+
+<p>1.先调用Logger.getLogger(&ldquo;com.foo.bar.X&rdquo;);
+2.然后调用Logger.getLogger(&ldquo;com.foo&rdquo;)；</p>
+
+<p>执行第一步</p>
+
+<ul>
+<li>名字为com.foo.bar.X的logger会被创建</li>
+<li>名字为com.foo.bar、com.foo和com的logger都会被创建成ProvisionNode对象；</li>
+<li>com.foo.bar.X的parent会指向RootLogger</li>
+</ul>
+
+
+<p>执行第二步</p>
+
+<ul>
+<li>名字为com.foo的logger会被创建，假设名字为A</li>
+<li>com.foo.bar.X的parent会指向A</li>
+<li>A.parent会指向RootLogger</li>
+</ul>
+
+
+<p>结论</p>
+
+<ol>
+<li>logger的继承关系是通过不断调用Logger.getLogger来创建起来的，并且这样的继承关系靠Hierarchy类来维护</li>
+<li>相同名字的logger只会闯将一次（不同的ClassLoader例外）</li>
+</ol>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Log4j源码学习]]></title>
