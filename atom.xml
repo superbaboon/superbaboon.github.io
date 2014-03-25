@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2014-03-16T19:31:39+08:00</updated>
+  <updated>2014-03-25T08:31:27+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -18,7 +18,10 @@
     <link href="http://superbaboon.github.io/blog/2014/03/16/log4j-source-learning-logger-getlogger/"/>
     <updated>2014-03-16T17:22:38+08:00</updated>
     <id>http://superbaboon.github.io/blog/2014/03/16/log4j-source-learning-logger-getlogger</id>
-    <content type="html"><![CDATA[<ul>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<ul>
 <li>Logger.getLogger的执行逻辑</li>
 </ul>
 
@@ -309,7 +312,10 @@
     <link href="http://superbaboon.github.io/blog/2014/03/15/log4j-source-learning-start/"/>
     <updated>2014-03-15T11:50:29+08:00</updated>
     <id>http://superbaboon.github.io/blog/2014/03/15/log4j-source-learning-start</id>
-    <content type="html"><![CDATA[<ul>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<ul>
 <li>解决什么问题
 
 <ul>
