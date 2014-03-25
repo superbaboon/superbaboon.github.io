@@ -6,6 +6,8 @@ comments: true
 categories: 
 ---
 
+<!--more-->
+
 * Logger.getLogger的执行逻辑
 
 ![时序图](/images/Log4j_logger_getLogger_timeline.jpg)
