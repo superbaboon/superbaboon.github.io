@@ -1,0 +1,366 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>java并发--Synchronized关键字 - SuperBaboon's Blog</title>
+  <meta name="author" content="SuperBaboon">
+
+  
+  <meta name="description" content="待解达的疑惑： synchronized可以使用的应用场景及其用途
+synchronized的内部实现
+synchronized存在的问题 参考文献 Java Programming Keyword Synchronized
+5-things-you-didnt-know-about- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://superbaboon.github.io/blog/2014/04/20/java-concurrent-synchronized">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/stylesheets/customer.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="SuperBaboon's Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">SuperBaboon's Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:superbaboon.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">java并发--Synchronized关键字</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-20T11:13:01+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2014</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><!--more-->
+
+
+<p>待解达的疑惑：</p>
+
+<ul>
+<li>synchronized可以使用的应用场景及其用途</li>
+<li>synchronized的内部实现</li>
+<li>synchronized存在的问题</li>
+</ul>
+
+
+<h4>参考文献</h4>
+
+<ul>
+<li><a href="http://en.wikibooks.org/wiki/Java_Programming/Keywords/synchronized">Java Programming Keyword Synchronized</a></li>
+<li><a href="http://www.takipiblog.com/2013/08/15/5-things-you-didnt-know-about-synchronization-in-java-and-scala/">5-things-you-didnt-know-about-synchronization-in-java-and-scala</a></li>
+<li><a href="http://www.infoq.com/cn/articles/java-se-16-synchronized">聊聊并发（二）——Java SE1.6中的Synchronized</a></li>
+</ul>
+
+
+<h4>应用场景</h4>
+
+<ul>
+<li>同步代码块</li>
+<li>同步方法</li>
+</ul>
+
+
+<p>同步代码块</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>synchronized(&lt;object_reference&gt;) {
+</span><span class='line'>   // Thread.currentThread() has a lock on object_reference. All other threads trying to access it will
+</span><span class='line'>   // be blocked until the current thread releases the lock.
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同步方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public synchronized void method() {
+</span><span class='line'>   // Thread.currentThread() has a lock on this object, i.e. a synchronized method is the same as
+</span><span class='line'>   // calling { synchronized(this) {…} }.
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>两种使用方法都是保证一个线程能执行相关代码</p>
+
+<p><strong>注意</strong></p>
+
+<ul>
+<li>synchronized总是与对象关联</li>
+<li>如果方法是静态方法，则关联对象是class对象</li>
+<li>如果方法是非静态方法，则关联对象是当前实例</li>
+<li><strong>允许使用synchronized修饰abstract方法是没有意义的，因为synchronized是属于实现的一部分</strong></li>
+</ul>
+
+
+<p>参考单例的实现方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * The singleton class that can be instantiated only once with lazy instantiation
+</span><span class='line'> */
+</span><span class='line'>public class Singleton {
+</span><span class='line'>    /** Static class instance */
+</span><span class='line'>    private volatile static Singleton instance = null;
+</span><span class='line'> 
+</span><span class='line'>    /**
+</span><span class='line'>     * Standard private constructor
+</span><span class='line'>     */
+</span><span class='line'>    private Singleton() {
+</span><span class='line'>        // Some initialisation
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    /**
+</span><span class='line'>     * Getter of the singleton instance
+</span><span class='line'>     * @return The only instance
+</span><span class='line'>     */
+</span><span class='line'>    public static Singleton getInstance() {
+</span><span class='line'>        if (instance == null) {
+</span><span class='line'>            // If the instance does not exist, go in time-consuming
+</span><span class='line'>            // section:
+</span><span class='line'>            synchronized (Singleton.class) {
+</span><span class='line'>                if (instance == null) {
+</span><span class='line'>                    instance = new Singleton();
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        return instance;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>synchronized的内部实现</h4>
+
+<ul>
+<li>两条字节码：MonitorEnter和MonitorExit</li>
+<li>Java 1.6以后synchronized性能已经得到一定的<a href="http://www.infoq.com/cn/articles/java-se-16-synchronized">优化</a></li>
+</ul>
+
+
+<h4>synchronized存在的问题</h4>
+
+<ul>
+<li>扩展性
+
+<ul>
+<li>synchronized 方法或语句的使用提供了对与每个对象相关的隐式监视器锁的访问，但却强制所有锁获取和释放均要出现在一个块结构中</li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">SuperBaboon</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2014-04-20T11:13:01+08:00" pubdate data-updated="true">Apr 20<span>th</span>, 2014</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://superbaboon.github.io/blog/2014/04/20/java-concurrent-synchronized/" data-via="" data-counturl="http://superbaboon.github.io/blog/2014/04/20/java-concurrent-synchronized/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2014/03/27/log4j-source-file-appender/" title="Previous Post: Logger源码学习--FileAppender">&laquo; Logger源码学习--FileAppender</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2014/04/20/java-concurrent-synchronized/">java并发--Synchronized关键字</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/27/log4j-source-file-appender/">Logger源码学习--FileAppender</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/16/log4j-source-learning-logger-getlogger/">Log4j源码学习之--Logger.getLogger</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/15/log4j-source-learning-start/">Log4j源码学习</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2014/03/07/demo/">Spring--ApplicationEvent</a>
+      </li>
+    
+  </ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2014 - SuperBaboon -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

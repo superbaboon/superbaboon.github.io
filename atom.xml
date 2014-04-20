@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2014-03-27T16:58:31+08:00</updated>
+  <updated>2014-04-20T11:15:56+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -12,6 +12,166 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[java并发--Synchronized关键字]]></title>
+    <link href="http://superbaboon.github.io/blog/2014/04/20/java-concurrent-synchronized/"/>
+    <updated>2014-04-20T11:13:01+08:00</updated>
+    <id>http://superbaboon.github.io/blog/2014/04/20/java-concurrent-synchronized</id>
+    <content type="html"><![CDATA[<!--more-->
+
+
+<p>待解达的疑惑：</p>
+
+<ul>
+<li>synchronized可以使用的应用场景及其用途</li>
+<li>synchronized的内部实现</li>
+<li>synchronized存在的问题</li>
+</ul>
+
+
+<h4>参考文献</h4>
+
+<ul>
+<li><a href="http://en.wikibooks.org/wiki/Java_Programming/Keywords/synchronized">Java Programming Keyword Synchronized</a></li>
+<li><a href="http://www.takipiblog.com/2013/08/15/5-things-you-didnt-know-about-synchronization-in-java-and-scala/">5-things-you-didnt-know-about-synchronization-in-java-and-scala</a></li>
+<li><a href="http://www.infoq.com/cn/articles/java-se-16-synchronized">聊聊并发（二）——Java SE1.6中的Synchronized</a></li>
+</ul>
+
+
+<h4>应用场景</h4>
+
+<ul>
+<li>同步代码块</li>
+<li>同步方法</li>
+</ul>
+
+
+<p>同步代码块</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>synchronized(&lt;object_reference&gt;) {
+</span><span class='line'>   // Thread.currentThread() has a lock on object_reference. All other threads trying to access it will
+</span><span class='line'>   // be blocked until the current thread releases the lock.
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>同步方法</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>public synchronized void method() {
+</span><span class='line'>   // Thread.currentThread() has a lock on this object, i.e. a synchronized method is the same as
+</span><span class='line'>   // calling { synchronized(this) {…} }.
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<p>两种使用方法都是保证一个线程能执行相关代码</p>
+
+<p><strong>注意</strong></p>
+
+<ul>
+<li>synchronized总是与对象关联</li>
+<li>如果方法是静态方法，则关联对象是class对象</li>
+<li>如果方法是非静态方法，则关联对象是当前实例</li>
+<li><strong>允许使用synchronized修饰abstract方法是没有意义的，因为synchronized是属于实现的一部分</strong></li>
+</ul>
+
+
+<p>参考单例的实现方式</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>/**
+</span><span class='line'> * The singleton class that can be instantiated only once with lazy instantiation
+</span><span class='line'> */
+</span><span class='line'>public class Singleton {
+</span><span class='line'>    /** Static class instance */
+</span><span class='line'>    private volatile static Singleton instance = null;
+</span><span class='line'> 
+</span><span class='line'>    /**
+</span><span class='line'>     * Standard private constructor
+</span><span class='line'>     */
+</span><span class='line'>    private Singleton() {
+</span><span class='line'>        // Some initialisation
+</span><span class='line'>    }
+</span><span class='line'> 
+</span><span class='line'>    /**
+</span><span class='line'>     * Getter of the singleton instance
+</span><span class='line'>     * @return The only instance
+</span><span class='line'>     */
+</span><span class='line'>    public static Singleton getInstance() {
+</span><span class='line'>        if (instance == null) {
+</span><span class='line'>            // If the instance does not exist, go in time-consuming
+</span><span class='line'>            // section:
+</span><span class='line'>            synchronized (Singleton.class) {
+</span><span class='line'>                if (instance == null) {
+</span><span class='line'>                    instance = new Singleton();
+</span><span class='line'>                }
+</span><span class='line'>            }
+</span><span class='line'>        }
+</span><span class='line'> 
+</span><span class='line'>        return instance;
+</span><span class='line'>    }
+</span><span class='line'>}</span></code></pre></td></tr></table></div></figure>
+
+
+<h4>synchronized的内部实现</h4>
+
+<ul>
+<li>两条字节码：MonitorEnter和MonitorExit</li>
+<li>Java 1.6以后synchronized性能已经得到一定的<a href="http://www.infoq.com/cn/articles/java-se-16-synchronized">优化</a></li>
+</ul>
+
+
+<h4>synchronized存在的问题</h4>
+
+<ul>
+<li>扩展性
+
+<ul>
+<li>synchronized 方法或语句的使用提供了对与每个对象相关的隐式监视器锁的访问，但却强制所有锁获取和释放均要出现在一个块结构中</li>
+</ul>
+</li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Logger源码学习--FileAppender]]></title>
