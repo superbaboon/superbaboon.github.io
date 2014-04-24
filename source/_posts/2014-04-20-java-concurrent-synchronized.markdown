@@ -6,6 +6,8 @@ comments: true
 categories: 
 ---
 
+<!--more-->
+
 待解达的疑惑：
 
 * synchronized可以使用的应用场景及其用途
