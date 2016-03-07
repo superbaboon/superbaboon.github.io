@@ -19,7 +19,8 @@ categories:
 
 ### 发布
 
+* rake generate -- 根据源文件生成目标文件
 * rake deploy -- 发布到github
-* git push origin source -- 将修改内容
+* git push origin source -- 记录修改内容
 
 Done！
