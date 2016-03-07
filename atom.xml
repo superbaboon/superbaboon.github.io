@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2016-02-25T10:03:08+08:00</updated>
+  <updated>2016-03-07T15:52:10+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -12,6 +12,43 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[常用mac执行命令]]></title>
+    <link href="http://superbaboon.github.io/blog/2016/03/07/common-mac-terminal-commands/"/>
+    <updated>2016-03-07T15:40:12+08:00</updated>
+    <id>http://superbaboon.github.io/blog/2016/03/07/common-mac-terminal-commands</id>
+    <content type="html"><![CDATA[<h2>启动mysql</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /usr/local/mysql/bin/mysqld_safe</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>重新设置root密码</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1. sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
+</span><span class='line'>2. mysql -u root
+</span><span class='line'>3. UPDATE mysql.user SET Password=PASSWORD('password') WHERE User='root';
+</span><span class='line'>4. FLUSH PRIVILEGES;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>清理rvm</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1. rvm implode
+</span><span class='line'>2. 确保~/.rvm和/usr/local/rvm目录已经被删除
+</span><span class='line'>3. 确保~/.bashrc，~/.bash_profile, ~/.zshrc，~/.profile相关的内容已经删除
+</span></code></pre></td></tr></table></div></figure>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[How-to-setup-octopress]]></title>

@@ -9,9 +9,14 @@
   <meta name="author" content="SuperBaboon">
 
   
-  <meta name="description" content="参考octopress官方安装文档 名字解释 rvm：ruby version manager
-gem：package manager for the Ruby programming language 系统环境 OSX EI Capitan 10.11.1 install rvm 1
-curl &hellip;">
+  <meta name="description" content="启动mysql 1
+sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
+2
+3
+4
+1. sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
+2. mysql -u root
+3. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -67,6 +72,70 @@ curl &hellip;">
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/07/common-mac-terminal-commands/">常用mac执行命令</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-07T15:40:12+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h2>启动mysql</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /usr/local/mysql/bin/mysqld_safe</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>重新设置root密码</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1. sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
+</span><span class='line'>2. mysql -u root
+</span><span class='line'>3. UPDATE mysql.user SET Password=PASSWORD('password') WHERE User='root';
+</span><span class='line'>4. FLUSH PRIVILEGES;
+</span></code></pre></td></tr></table></div></figure>
+
+
+<h2>清理rvm</h2>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>1. rvm implode
+</span><span class='line'>2. 确保~/.rvm和/usr/local/rvm目录已经被删除
+</span><span class='line'>3. 确保~/.bashrc，~/.bash_profile, ~/.zshrc，~/.profile相关的内容已经删除
+</span></code></pre></td></tr></table></div></figure>
+
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -450,6 +519,10 @@ curl &hellip;">
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/07/common-mac-terminal-commands/">常用mac执行命令</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/02/25/how-to-setup-octopress/">How-to-setup-octopress</a>
       </li>
     
@@ -463,10 +536,6 @@ curl &hellip;">
     
       <li class="post">
         <a href="/blog/2014/03/27/log4j-source-file-appender/">Logger源码学习&#8211;FileAppender</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/16/log4j-source-learning-logger-getlogger/">Log4j源码学习之&#8211;Logger.getLogger</a>
       </li>
     
   </ul>
