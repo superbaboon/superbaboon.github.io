@@ -9,14 +9,8 @@
   <meta name="author" content="SuperBaboon">
 
   
-  <meta name="description" content="启动mysql 1
-sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
-2
-3
-4
-1. sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
-2. mysql -u root
-3. &hellip;">
+  <meta name="description" content="开启本地监听和http服务器 rake watch &mdash; 监听源文件变化
+rake preview &mdash; 本地开启http端口，通过访问http://localhost:4000/%E8%AE%BF%E9%97%AE 新建文章 rake new_post[&lsquo;{ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -72,6 +66,67 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2016/03/07/how-to-develp-and-publish-blog/">如何编写和发布博客</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2016-03-07T15:55:49+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2016</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><h3>开启本地监听和http服务器</h3>
+
+<ul>
+<li>rake watch &mdash; 监听源文件变化</li>
+<li>rake preview &mdash; 本地开启http端口，通过访问<a href="http://localhost:4000/%E8%AE%BF%E9%97%AE">http://localhost:4000/%E8%AE%BF%E9%97%AE</a></li>
+</ul>
+
+
+<h3>新建文章</h3>
+
+<ul>
+<li>rake new_post[&lsquo;{post name}&rsquo;]</li>
+</ul>
+
+
+<p>注意：文件名命名规则，参考<a href="http://octopress.org/docs/blogging/">这里</a></p>
+
+<h3>发布</h3>
+
+<ul>
+<li>rake deploy &mdash; 发布到github</li>
+<li>git push origin source &mdash; 将修改内容</li>
+</ul>
+
+
+<p>Done！</p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
@@ -519,6 +574,10 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
   <ul id="recent_posts">
     
       <li class="post">
+        <a href="/blog/2016/03/07/how-to-develp-and-publish-blog/">如何编写和发布博客</a>
+      </li>
+    
+      <li class="post">
         <a href="/blog/2016/03/07/common-mac-terminal-commands/">常用mac执行命令</a>
       </li>
     
@@ -532,10 +591,6 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
     
       <li class="post">
         <a href="/blog/2014/04/20/java-concurrent-synchronized/">java并发&#8211;Synchronized关键字</a>
-      </li>
-    
-      <li class="post">
-        <a href="/blog/2014/03/27/log4j-source-file-appender/">Logger源码学习&#8211;FileAppender</a>
       </li>
     
   </ul>

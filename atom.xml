@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2016-03-07T15:52:10+08:00</updated>
+  <updated>2016-03-07T16:01:50+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -12,6 +12,40 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[如何编写和发布博客]]></title>
+    <link href="http://superbaboon.github.io/blog/2016/03/07/how-to-develp-and-publish-blog/"/>
+    <updated>2016-03-07T15:55:49+08:00</updated>
+    <id>http://superbaboon.github.io/blog/2016/03/07/how-to-develp-and-publish-blog</id>
+    <content type="html"><![CDATA[<h3>开启本地监听和http服务器</h3>
+
+<ul>
+<li>rake watch &mdash; 监听源文件变化</li>
+<li>rake preview &mdash; 本地开启http端口，通过访问<a href="http://localhost:4000/%E8%AE%BF%E9%97%AE">http://localhost:4000/%E8%AE%BF%E9%97%AE</a></li>
+</ul>
+
+
+<h3>新建文章</h3>
+
+<ul>
+<li>rake new_post[&lsquo;{post name}&rsquo;]</li>
+</ul>
+
+
+<p>注意：文件名命名规则，参考<a href="http://octopress.org/docs/blogging/">这里</a></p>
+
+<h3>发布</h3>
+
+<ul>
+<li>rake deploy &mdash; 发布到github</li>
+<li>git push origin source &mdash; 将修改内容</li>
+</ul>
+
+
+<p>Done！</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[常用mac执行命令]]></title>

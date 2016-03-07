@@ -5,18 +5,12 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>常用mac执行命令 - SuperBaboon's Blog</title>
+  <title>如何编写和发布博客 - SuperBaboon's Blog</title>
   <meta name="author" content="SuperBaboon">
 
   
-  <meta name="description" content="启动mysql 1
-sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
-2
-3
-4
-1. sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
-2. mysql -u root
-3. &hellip;">
+  <meta name="description" content="开启本地监听和http服务器 rake watch &mdash; 监听源文件变化
+rake preview &mdash; 本地开启http端口，通过访问http://localhost:4000/%E8%AE%BF%E9%97%AE 新建文章 rake new_post[&lsquo;{ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -25,7 +19,7 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://superbaboon.github.io/blog/2016/03/07/common-mac-terminal-commands">
+  <link rel="canonical" href="http://superbaboon.github.io/blog/2016/03/07/how-to-develp-and-publish-blog">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="SuperBaboon's Blog" type="application/atom+xml">
@@ -75,7 +69,7 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
   
   <header>
     
-      <h1 class="entry-title">常用mac执行命令</h1>
+      <h1 class="entry-title">如何编写和发布博客</h1>
     
     
       <p class="meta">
@@ -91,42 +85,39 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
   
 
 
-<time datetime="2016-03-07T15:40:12+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2016</time>
+<time datetime="2016-03-07T15:55:49+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2016</time>
         
       </p>
     
   </header>
 
 
-<div class="entry-content"><h2>启动mysql</h2>
+<div class="entry-content"><h3>开启本地监听和http服务器</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>sudo /usr/local/mysql/bin/mysqld_safe</span></code></pre></td></tr></table></div></figure>
-
-
-<h2>重新设置root密码</h2>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1. sudo /usr/local/mysql/bin/mysqld_safe --skip-grant-tables
-</span><span class='line'>2. mysql -u root
-</span><span class='line'>3. UPDATE mysql.user SET Password=PASSWORD('password') WHERE User='root';
-</span><span class='line'>4. FLUSH PRIVILEGES;
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>rake watch &mdash; 监听源文件变化</li>
+<li>rake preview &mdash; 本地开启http端口，通过访问<a href="http://localhost:4000/%E8%AE%BF%E9%97%AE">http://localhost:4000/%E8%AE%BF%E9%97%AE</a></li>
+</ul>
 
 
-<h2>清理rvm</h2>
+<h3>新建文章</h3>
 
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>1. rvm implode
-</span><span class='line'>2. 确保~/.rvm和/usr/local/rvm目录已经被删除
-</span><span class='line'>3. 确保~/.bashrc，~/.bash_profile, ~/.zshrc，~/.profile相关的内容已经删除
-</span></code></pre></td></tr></table></div></figure>
+<ul>
+<li>rake new_post[&lsquo;{post name}&rsquo;]</li>
+</ul>
 
+
+<p>注意：文件名命名规则，参考<a href="http://octopress.org/docs/blogging/">这里</a></p>
+
+<h3>发布</h3>
+
+<ul>
+<li>rake deploy &mdash; 发布到github</li>
+<li>git push origin source &mdash; 将修改内容</li>
+</ul>
+
+
+<p>Done！</p>
 </div>
 
 
@@ -149,7 +140,7 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
   
 
 
-<time datetime="2016-03-07T15:40:12+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2016</time>
+<time datetime="2016-03-07T15:55:49+08:00" pubdate data-updated="true">Mar 7<span>th</span>, 2016</time>
       
 
 
@@ -157,7 +148,7 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://superbaboon.github.io/blog/2016/03/07/common-mac-terminal-commands/" data-via="" data-counturl="http://superbaboon.github.io/blog/2016/03/07/common-mac-terminal-commands/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://superbaboon.github.io/blog/2016/03/07/how-to-develp-and-publish-blog/" data-via="" data-counturl="http://superbaboon.github.io/blog/2016/03/07/how-to-develp-and-publish-blog/" >Tweet</a>
   
   
   
@@ -166,10 +157,8 @@ sudo /usr/local/mysql/bin/mysqld_safe 重新设置root密码 1
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2016/02/25/how-to-setup-octopress/" title="Previous Post: how-to-setup-octopress">&laquo; how-to-setup-octopress</a>
+        <a class="basic-alignment left" href="/blog/2016/03/07/common-mac-terminal-commands/" title="Previous Post: 常用mac执行命令">&laquo; 常用mac执行命令</a>
       
-      
-        <a class="basic-alignment right" href="/blog/2016/03/07/how-to-develp-and-publish-blog/" title="Next Post: 如何编写和发布博客">如何编写和发布博客 &raquo;</a>
       
     </p>
   </footer>
