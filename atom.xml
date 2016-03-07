@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2016-03-07T16:07:19+08:00</updated>
+  <updated>2016-03-07T16:09:05+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -38,6 +38,7 @@
 <h3>发布</h3>
 
 <ul>
+<li>rake generate &mdash; 根据源文件生成目标文件</li>
 <li>rake deploy &mdash; 发布到github</li>
 <li>git push origin source &mdash; 将修改内容</li>
 </ul>
