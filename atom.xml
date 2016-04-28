@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2016-03-07T16:16:37+08:00</updated>
+  <updated>2016-04-28T17:55:54+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -12,6 +12,20 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[常用技术链接]]></title>
+    <link href="http://superbaboon.github.io/blog/2016/04/28/usage-tech-links/"/>
+    <updated>2016-04-28T17:50:03+08:00</updated>
+    <id>http://superbaboon.github.io/blog/2016/04/28/usage-tech-links</id>
+    <content type="html"><![CDATA[<h3>搜索</h3>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=PpX7J-G2PEo">ElasticSearch入门视频</a></li>
+</ul>
+
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[如何编写和发布博客]]></title>
