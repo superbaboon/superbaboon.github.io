@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2016-04-28T18:07:06+08:00</updated>
+  <updated>2016-05-25T09:43:55+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -31,6 +31,21 @@
 <li><a href="http://www.infoq.com/cn/presentations/alipay-elastic-computing-architecture">支付宝弹性计算架构</a></li>
 <li><a href="http://www.infoq.com/cn/presentations/cl-refactor-system-arch">重构全局系统架构的方法与工具</a></li>
 <li><a href="http://www.infoq.com/cn/presentations/financial-technology-changes-in-big-data-age">大数据时代的金融技术变革</a></li>
+</ul>
+
+
+<h3>淘宝</h3>
+
+<ul>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970100x9cc.html">淘宝技术发展（引言）</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970100xazf.html">淘宝技术发展（个人网站）</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970100xdty.html">淘宝技术发展（Oracle/支付宝/旺旺）</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970100xktb.html">淘宝技术发展（Java时代：脱胎换骨）</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970100ybfx.html">淘宝技术发展（Java时代：坚若磐石）</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970100ykt9.html">淘宝技术发展（Java时代：创造技术-TFS）</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_633219970101062y.html">淘宝技术发展（Java时代：创造技术-Tair</a></li>
+<li><a href="http://blog.sina.com.cn/s/blog_6332199701013c3t.html">淘宝技术发展（分布式时代：服务化）</a></li>
+<li><a href="http://blog.csdn.net/cenwenchu79/article/details/8066368">淘宝技术发展（开放平台）</a></li>
 </ul>
 
 ]]></content>
