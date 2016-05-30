@@ -4,7 +4,7 @@
   <title><![CDATA[SuperBaboon's Blog]]></title>
   <link href="http://superbaboon.github.io/atom.xml" rel="self"/>
   <link href="http://superbaboon.github.io/"/>
-  <updated>2016-05-25T09:43:55+08:00</updated>
+  <updated>2016-05-30T13:34:48+08:00</updated>
   <id>http://superbaboon.github.io/</id>
   <author>
     <name><![CDATA[SuperBaboon]]></name>
@@ -18,7 +18,14 @@
     <link href="http://superbaboon.github.io/blog/2016/04/28/usage-tech-links/"/>
     <updated>2016-04-28T17:50:03+08:00</updated>
     <id>http://superbaboon.github.io/blog/2016/04/28/usage-tech-links</id>
-    <content type="html"><![CDATA[<h3>搜索</h3>
+    <content type="html"><![CDATA[<h3>Java</h3>
+
+<ul>
+<li><a href="http://ifeve.com/doug-lea/">Doug Lea并发编程文章全部译文</a></li>
+</ul>
+
+
+<h3>搜索</h3>
 
 <ul>
 <li><a href="https://www.youtube.com/watch?v=PpX7J-G2PEo">ElasticSearch入门视频</a></li>
